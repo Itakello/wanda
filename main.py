@@ -91,14 +91,16 @@ def main():
 
     model_name = args.model.split("/")[-1]
     print(f"loading llm model {args.model}")
-    """model = get_llm(args.model, args.cache_dir)
+    model = get_llm(args.model, args.cache_dir)
     model.eval()
     tokenizer = AutoTokenizer.from_pretrained(args.model, use_fast=False)
 
     device = torch.device("cuda:0")
-    if "30b" in args.model or "65b" in args.model: # for 30b and 65b we use device_map to load onto multiple A6000 GPUs, thus the processing here.
+    if (
+        "30b" in args.model or "65b" in args.model
+    ):  # for 30b and 65b we use device_map to load onto multiple A6000 GPUs, thus the processing here.
         device = model.hf_device_map["lm_head"]
-    print("use device ", device)"""
+    print("use device ", device)
     model, tokenizer, device = None, None, None
 
     if args.sparsity_ratio != 0:

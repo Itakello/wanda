@@ -1,21 +1,11 @@
-# Code adapted from https://github.com/IST-DASLab/sparsegpt/blob/master/datautils.py
-
 import random
 
-import numpy as np
-import torch
 from datasets import load_dataset
-
-
-# Set seed for reproducibility
-def set_seed(seed):
-    np.random.seed(seed)
-    torch.random.manual_seed(seed)
 
 
 # Wrapper for tokenized input IDs
 class TokenizerWrapper:
-    def __init__(self, input_ids):
+    def __init__(self, input_ids) -> None:
         self.input_ids = input_ids
 
 

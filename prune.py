@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+from tqdm import tqdm
 
 from .layerwrapper import WrappedGPT
 
@@ -39,7 +40,7 @@ def prune_wanda(model, calib_data, args, device=torch.device("cuda:0")):
     # We'll create an 'outs' buffer for the next layer's input
     outs = torch.zeros_like(inps)
 
-    for i, layer in enumerate(layers):
+    for i, layer in enumerate(tqdm(layers, desc="Processing layers")):
         # Move layer to device
         layer = layer.to(device)
         subset = find_layers(layer)
@@ -79,7 +80,11 @@ def prune_wanda(model, calib_data, args, device=torch.device("cuda:0")):
             h.remove()
 
         # Wanda: unstructured => pick top-K or do N:M if needed
-        for n in wrapped_layers:
+        for n in tqdm(
+            wrapped_layers.keys(),
+            desc=f"Processing sublayers in layer {i}",
+            leave=False,
+        ):
             print(f"[Wanda] Pruning layer={i} sublayer={n}")
             # Weighted metric = abs(W) * sqrt( row-norm of input )
             W = subset[n].weight.data

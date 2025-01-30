@@ -85,7 +85,6 @@ def prune_wanda(model, calib_data, args, device=torch.device("cuda:0")):
             desc=f"Processing sublayers in layer {i}",
             leave=False,
         ):
-            print(f"[Wanda] Pruning layer={i} sublayer={n}")
             # Weighted metric = abs(W) * sqrt( row-norm of input )
             W = subset[n].weight.data
             row_norms = torch.sqrt(wrapped_layers[n].scaler_row).reshape(1, -1)
